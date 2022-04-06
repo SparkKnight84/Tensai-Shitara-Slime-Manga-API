@@ -2,7 +2,7 @@ import { config } from "dotenv";
 config();
 import routes from "./routes.js";
 
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 const LOGGER = true;
 
 import fastify from "fastify";
@@ -22,7 +22,10 @@ app.get('/api', (req, reply) => {
 app.get("/api/chapters", routes.getChapters);
 app.get("/api/pages/:chapter", routes.getPages);
 
-app.listen(PORT, (err, address) => {
+app.listen({
+  port: PORT,
+  host: "0.0.0.0"
+}, (err, address) => {
   if (err) {
     if (LOGGER) {
       app.log.error(err)
